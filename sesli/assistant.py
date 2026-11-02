@@ -24,6 +24,8 @@ MAX_BACK = 6.0       # (x2 allowed when the mic is extremely close)
 BASS_EXCESS = 6.0     # dB over the target's 80-250 Hz level = too close (proximity boom)
 SNR_TOO_CLOSE = 40.0  # dB: this far above the room means the mic is very close (boom, pops, clipping)
 SNR_BACK_TO = 34.0    # where to aim when backing off: still very clean
+MAX_TRIM = 24.0       # dB of digital boost for mics that are too quiet at their maximum level
+AT_MAX_WAIT = 3.0     # s at the maximum level before falling back to the digital boost
 
 
 class Analyzer:

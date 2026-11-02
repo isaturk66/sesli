@@ -19,6 +19,8 @@ if k32.GetLastError() == 183:  # ERROR_ALREADY_EXISTS -> already running
         u32.SetForegroundWindow(h)
     sys.exit(0)
 
+QUIET = '--minimized' in sys.argv  # started with Windows: no splash
+
 splash = tk.Tk()
 splash.overrideredirect(True)
 splash.configure(bg='#ffffff', highlightbackground='#dcdad5', highlightthickness=1)
@@ -34,9 +36,14 @@ tk.Label(splash, text='Sesli', font=('Segoe UI Semibold', 15), bg='#ffffff', fg=
 msg = tk.Label(splash, text='Starting…', font=('Segoe UI', 10), bg='#ffffff', fg='#6b6b70')
 msg.pack()
 splash.attributes('-topmost', True)
-splash.update()
+if QUIET:
+    splash.withdraw()
+else:
+    splash.update()
 
-msg.config(text='Loading audio engine…'); splash.update()
+msg.config(text='Loading audio engine…')
+if not QUIET:
+    splash.update()
 try:  # the .exe shows a native splash while unpacking; close it now that ours is up
     import pyi_splash
     pyi_splash.close()

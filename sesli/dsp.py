@@ -56,7 +56,11 @@ class Chain:
         return y
 
     def post_nr(self, x):
-        """HPF + DeepFilterNet only (used by calibration to measure the voice before EQ)."""
+        """Input trim + HPF + DeepFilterNet (used by calibration to measure the voice before EQ).
+        The trim is a digital boost for mics that are too quiet even at their maximum level."""
+        t = self.p.get('input_trim_db', 0.0)
+        if t:
+            x = x * (10 ** (t / 20))
         return self.dfn.process(self.hp(x).astype(np.float32))
 
     def process(self, x):

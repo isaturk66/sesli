@@ -50,6 +50,11 @@ To build a single `.exe` you can send to someone, see [docs/BUILDING.md](docs/BU
    choices. It starts with a few clearly different options, then fine-tunes with pairs, and finishes
    with a blind check against your original sound. **Reset tone** undoes it.
 
+5. **To start with Windows:** tick **Start Sesli when Windows starts**. It then opens minimized at login.
+
+Very quiet mics (cheap earbuds, for example) are fine: if your mic is still too quiet at its maximum
+level, the setup assistant adds a digital boost.
+
 Each microphone keeps its own setup. Settings and logs are in `%APPDATA%\Sesli`.
 
 ## How good is it?

@@ -22,6 +22,7 @@ import engine as eng  # noqa: E402
 import assistant as A  # noqa: E402
 import eqfit  # noqa: E402
 import i18n  # noqa: E402
+import autostart  # noqa: E402
 from i18n import T  # noqa: E402
 
 BG, CARD, INK, MUTE, LINE = '#f4f3ef', '#ffffff', '#1d1d1f', '#6b6b70', '#dcdad5'
@@ -83,7 +84,11 @@ class App(tk.Tk):
         self.engine = eng.Engine()
         self.ok = self.engine.start()
         self.setup_win = None
-        self.after(150, self.bring_to_front)
+        autostart.refresh()
+        if autostart.started_minimized():
+            self.after(150, self.iconify)  # started with Windows: stay out of the way
+        else:
+            self.after(150, self.bring_to_front)
         if i18n.lang() is None:
             self.show_language_picker()
         else:
@@ -195,6 +200,10 @@ class App(tk.Tk):
             tk.Radiobutton(srow, text=T(v), value=v, variable=self.strength, bg=CARD, font=FONT,
                            command=self.set_strength, activebackground=CARD).pack(side='left', padx=6)
 
+        self.auto_var = tk.BooleanVar(value=autostart.enabled())
+        tk.Checkbutton(c, text=T('autostart'), variable=self.auto_var, bg=CARD, font=FONT, activebackground=CARD,
+                       command=self.set_autostart).pack(anchor='w', pady=(2, 0), padx=14)
+
         tk.Label(c, font=('Segoe UI', 9), bg=CARD, fg=MUTE, justify='left', wraplength=400,
                  text=T('discord_help')).pack(anchor='w', pady=(10, 16), **pad)
 
@@ -295,6 +304,13 @@ class App(tk.Tk):
         ch.enabled = not ch.enabled
         self.btn_on.config(text=T('proc_on') if ch.enabled else T('proc_off'),
                            bg=ACC if ch.enabled else '#9a9aa0')
+
+    def set_autostart(self):
+        try:
+            autostart.set_enabled(bool(self.auto_var.get()))
+        except OSError:
+            traceback.print_exc()
+            self.auto_var.set(autostart.enabled())
 
     def set_strength(self):
         self.engine.apply_profile(dict(nr_atten_db=100.0 if self.strength.get() == 'strong' else 24.0))
@@ -440,7 +456,7 @@ class Setup(tk.Toplevel):
 
     def start_measure(self):
         has = self.knob.get() == 'yes'
-        self.e.apply_profile(dict(has_knob=has))
+        self.e.apply_profile(dict(has_knob=has, input_trim_db=0.0))
         if has:
             eng.set_input_level_full(self.e.mic)
         self.verifying = False
@@ -577,8 +593,15 @@ class Setup(tk.Toplevel):
                 if abs(new - cur) > 0.2:
                     eng.set_input_level_db(self.e.mic, new)
                     self.live.buf = []  # measure again at the new level
+                    self.max_since = None
                 elif d < 0:
+                    # Windows level is maxed and the voice is still too quiet: boost digitally
                     self.hint.config(text=T('mic_max'))
+                    self.max_since = getattr(self, 'max_since', None) or time.time()
+                    if time.time() - self.max_since > A.AT_MAX_WAIT:
+                        self.max_since = None
+                        self.boost_and_continue(v, target)
+                        return
             self.last_adj = time.time()
         if v is None:
             self.inst.config(text=T('start_talking'), fg=INK)
@@ -625,8 +648,17 @@ class Setup(tk.Toplevel):
         self._live_step(T('move_h'), target, A.LEVEL_TOL, msg, done, extra_btn=(T('m_lock_here'), lock_here))
         self.p(T('m_aim', hint=dist_hint(self.pl['move'])))
 
+    def boost_and_continue(self, v, target):
+        """The mic can't get loud enough by itself: make up the rest with a digital boost."""
+        trim = float(np.clip(target - v, 0.0, A.MAX_TRIM))
+        self.e.apply_profile(dict(input_trim_db=trim))
+        self.in_gain_step = False
+        self.verifying = True
+        self.step_measure()
+
     def step_gain(self):
         self.in_gain_step = True
+        self.max_since = None
         target = self.pl['target_speech']
         self.gain_target = target
 
@@ -649,7 +681,15 @@ class Setup(tk.Toplevel):
             self.p(T('auto_note'))
             return
         self.auto_gain = False
-        self._live_step(T('gain_h'), target, A.LEVEL_TOL, msg, done)
+
+        def at_max():
+            v = self.live.value()
+            if v is not None and v < target - A.LEVEL_TOL:
+                self.boost_and_continue(v, target)
+            else:
+                done(v)
+
+        self._live_step(T('gain_h'), target, A.LEVEL_TOL, msg, done, extra_btn=(T('g_at_max'), at_max))
         self.p(T('g_where'))
 
     def step_verify_result(self):

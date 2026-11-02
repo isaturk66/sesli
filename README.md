@@ -2,7 +2,7 @@
 
 <h1 align="center">Sesli</h1>
 
-<p align="center">Make any microphone sound clean on Discord, or any voice app, on Windows.</p>
+<p align="center">Clean, studio-style voice from any microphone, live, on Windows.</p>
 
 Sesli processes your mic live and sends the result to a virtual microphone. It does:
 
@@ -16,7 +16,7 @@ The app has an English and a Turkish interface.
 ## How it works
 
 ```
-your mic ──► Sesli ──► VB-Cable ("CABLE Input") ──► Discord picks "CABLE Output" as its mic
+your mic ──► Sesli ──► VB-Cable ("CABLE Input") ──► your app picks "CABLE Output" as its mic
 ```
 
 Open Sesli and processing starts. Close it and it stops. There's nothing to configure beyond the
@@ -41,15 +41,14 @@ To build a single `.exe` you can send to someone, see [docs/BUILDING.md](docs/BU
 
 1. **First start:** pick your language, then run the setup assistant. It takes about a minute. Each
    recording step waits until you click **I'm ready**.
-2. **In Discord:** go to Voice & Video and set the input device to **CABLE Output (VB-Audio Virtual Cable)**.
-   Turn **off** Discord's Noise Suppression, Echo Cancellation and Automatic Gain Control, because Sesli
-   does those.
-3. **To hear yourself:** click **Test my mic**. It records 8 seconds of exactly what Discord receives and
+2. **In your voice or streaming app:** set the microphone to **CABLE Output (VB-Audio Virtual Cable)**.
+   Turn **off** the app's own Noise Suppression, Echo Cancellation and Automatic Gain Control, because
+   Sesli does those.
+3. **To hear yourself:** click **Test my mic**. It records 8 seconds of exactly what others will hear and
    plays it back.
 4. **To change your tone:** click **Tune by ear**. You record 10 seconds, then make up to 14 blind
    choices. It starts with a few clearly different options, then fine-tunes with pairs, and finishes
    with a blind check against your original sound. **Reset tone** undoes it.
-
 5. **To start with Windows:** tick **Start Sesli when Windows starts**. It then opens minimized at login.
 
 Very quiet mics (cheap earbuds, for example) are fine: if your mic is still too quiet at its maximum
@@ -59,12 +58,12 @@ Each microphone keeps its own setup. Settings and logs are in `%APPDATA%\Sesli`.
 
 ## How good is it?
 
-Sesli was developed against a measurable target, Discord's own processing of the same voice, and
-checked with blind A/B listening tests:
+Sesli was developed against a measured reference, a popular voice app's built-in processing of the
+same voice, and checked with blind A/B listening tests:
 
 | Comparison | Blind result |
 |---|---|
-| Sesli (live) vs Discord | Sesli preferred 4/4 ("Discord has hiss") |
+| Sesli (live) vs the reference | Sesli preferred 4/4 (the reference had hiss) |
 | Sesli live vs offline render | indistinguishable (1–1, 2 ties) |
 
 The details are in [docs/HOW_IT_WORKS.md](docs/HOW_IT_WORKS.md).

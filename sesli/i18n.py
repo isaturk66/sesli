@@ -44,7 +44,7 @@ STR = {
         'language': 'Language',
         'microphone': 'Microphone',
         'your_mic': 'Your mic',
-        'discord_hears': 'What Discord hears',
+        'others_hear': 'What others hear',
         'proc_on': 'Processing: ON',
         'proc_off': 'Processing: OFF (raw mic)',
         'run_setup': 'Run setup',
@@ -53,19 +53,19 @@ STR = {
         'autostart': 'Start Sesli when Windows starts (minimized)',
         'strong': 'Strong',
         'gentle': 'Gentle',
-        'discord_help': 'In Discord → Voice & Video: Input device = "CABLE Output (VB-Audio Virtual Cable)". '
-                        'Turn OFF Noise Suppression, Echo Cancellation and Automatic Gain Control. '
-                        'Closing this window stops your mic in Discord.',
+        'app_help': 'In your voice or streaming app, choose "CABLE Output (VB-Audio Virtual Cable)" as the microphone '
+                    'and turn OFF its own noise suppression, echo cancellation and automatic gain. '
+                    'Closing this window stops your mic there.',
         'cable_title': 'One-time step: install VB-Cable',
         'cable_why': 'Sesli sends your cleaned-up voice into a free "virtual cable" called VB-Cable. '
-                     'Discord (or any app) then uses that cable as its microphone.',
+                     'Any app can then use that cable as its microphone.',
         'cable_1': '1.  Click "Download VB-Cable" and download the Windows driver pack (a .zip).',
         'cable_2': '2.  Unzip it. Right-click VBCABLE_Setup_x64.exe → Run as administrator → Install Driver.',
         'cable_3': '3.  Restart your PC, then open Sesli again.',
         'cable_dl': 'Download VB-Cable',
         'check_again': 'Check again',
-        'recording_test': 'Recording — talk like you would on Discord… {s} s',
-        'playing_back': 'Playing back what Discord would hear… (on your speakers/headphones)',
+        'recording_test': 'Recording — talk like you normally do… {s} s',
+        'playing_back': 'Playing back what others will hear… (on your speakers/headphones)',
         'cant_play': 'Could not play back: {err}',
         'test_done': 'That’s how you sound. Click "Test my mic" to try again.',
         'not_running': 'Not running',
@@ -96,7 +96,7 @@ STR = {
         'ph_silence': 'Stay silent',
         'ph_silence_i': 'Don’t talk, don’t type. I’m measuring the room noise.',
         'ph_talk': 'Talk normally',
-        'ph_talk_i': 'Read this out loud, like you talk on Discord:',
+        'ph_talk_i': 'Read this out loud, in your normal voice:',
         'ph_loud': 'Now be LOUD',
         'ph_loud_i': 'Like an exciting moment in a game — loud, but don’t scream into the mic. '
                      'Keep it up until the timer ends.',
@@ -143,7 +143,7 @@ STR = {
         'still_clip_p': 'Let’s take the gain down a little more.',
         'ok': 'OK',
         'cal_h': 'Last step: read this out loud',
-        'cal_p': 'Normal voice, like on Discord. I’m tuning the sound to your voice (20 seconds).',
+        'cal_p': 'Your normal voice. I’m tuning the sound to your voice (20 seconds).',
         'done_h': 'All set',
         'done_p': 'Your voice is about {snr} dB above the room noise. Tone matched to the target within '
                   '{err} dB (was {before} dB off).',
@@ -158,7 +158,7 @@ STR = {
         'tune_title': 'Sesli \u2014 tune by ear',
         'tune_h': 'Tune by ear',
         'tune_intro': 'I record 10 seconds of you, then you pick what sounds best \u2014 blind, a few options at '
-                      'a time. First we find a direction, then fine-tune. At most 14 choices. Talk like you do on Discord.',
+                      'a time. First we find a direction, then fine-tune. At most 14 choices. Talk like you normally do.',
         'tune_pick': 'Which one sounds best?',
         'tune_pair': 'Which sounds better?',
         'tune_check': 'Final check: which do you prefer?',
@@ -174,7 +174,7 @@ STR = {
         'tw_clear': 'clearer', 'tw_soft': 'softer', 'tw_warm': 'warmer / deeper', 'tw_light': 'lighter',
         'tw_airy': 'airier', 'tw_dark': 'darker', 'tw_none': 'close to the original',
         'tune_res_tuned': 'Your sound: {sound}. In the blind final check you preferred it over the original.',
-        'tune_applied': 'Applied \u2014 Discord hears this now. You can undo it with "Reset tone".',
+        'tune_applied': 'Applied — this is what others hear now. You can undo it with "Reset tone".',
         'tune_res_original': 'In the blind final check you preferred the ORIGINAL, so I kept it. '
                              'Your ears already like the default sound.',
         'tune_res_mixed': 'Your sound: {sound}. The final check was mixed \u2014 the difference to the original is small. '
@@ -192,7 +192,7 @@ STR = {
         'language': 'Dil',
         'microphone': 'Mikrofon',
         'your_mic': 'Mikrofonun',
-        'discord_hears': 'Discord’un duyduğu',
+        'others_hear': 'Karşı tarafın duyduğu',
         'proc_on': 'İşleme: AÇIK',
         'proc_off': 'İşleme: KAPALI (ham mikrofon)',
         'run_setup': 'Kurulumu başlat',
@@ -201,19 +201,19 @@ STR = {
         'autostart': 'Windows açılınca Sesli’yi başlat (simge durumunda)',
         'strong': 'Güçlü',
         'gentle': 'Hafif',
-        'discord_help': 'Discord → Ses ve Görüntü: Giriş cihazı = "CABLE Output (VB-Audio Virtual Cable)". '
-                        'Gürültü Bastırma, Yankı Engelleme ve Otomatik Kazanç Kontrolü’nü KAPAT. '
-                        'Bu pencereyi kapatırsan Discord’da mikrofonun kesilir.',
+        'app_help': 'Sesli konuşma ya da yayın uygulamanda mikrofon olarak "CABLE Output (VB-Audio Virtual Cable)" seç; '
+                    'uygulamanın kendi gürültü bastırma, yankı engelleme ve otomatik kazanç ayarlarını KAPAT. '
+                    'Bu pencereyi kapatırsan oradaki mikrofonun kesilir.',
         'cable_title': 'Bir kerelik adım: VB-Cable kur',
         'cable_why': 'Sesli temizlenmiş sesini VB-Cable adlı ücretsiz bir "sanal kabloya" gönderir. '
-                     'Discord (ya da başka bir uygulama) bu kabloyu mikrofon olarak kullanır.',
+                     'Her uygulama bu kabloyu mikrofon olarak kullanabilir.',
         'cable_1': '1.  "VB-Cable’ı indir"e tıkla ve Windows sürücü paketini (.zip) indir.',
         'cable_2': '2.  Zip’i aç. VBCABLE_Setup_x64.exe’ye sağ tıkla → Yönetici olarak çalıştır → Install Driver.',
         'cable_3': '3.  Bilgisayarı yeniden başlat, sonra Sesli’yi tekrar aç.',
         'cable_dl': 'VB-Cable’ı indir',
         'check_again': 'Tekrar kontrol et',
-        'recording_test': 'Kaydediliyor — Discord’daki gibi konuş… {s} sn',
-        'playing_back': 'Discord’un duyacağı ses çalınıyor… (hoparlör/kulaklıktan)',
+        'recording_test': 'Kaydediliyor — normalde nasıl konuşuyorsan öyle konuş… {s} sn',
+        'playing_back': 'Karşı tarafın duyacağı ses çalınıyor… (hoparlör/kulaklıktan)',
         'cant_play': 'Çalınamadı: {err}',
         'test_done': 'Sesin böyle duyuluyor. Tekrar denemek için "Mikrofonumu test et"e tıkla.',
         'not_running': 'Çalışmıyor',
@@ -244,7 +244,7 @@ STR = {
         'ph_silence': 'Sessiz kal',
         'ph_silence_i': 'Konuşma, klavyeye dokunma. Odanın gürültüsünü ölçüyorum.',
         'ph_talk': 'Normal konuş',
-        'ph_talk_i': 'Bunu Discord’da konuştuğun gibi sesli oku:',
+        'ph_talk_i': 'Bunu normal sesinle sesli oku:',
         'ph_loud': 'Şimdi YÜKSEK sesle',
         'ph_loud_i': 'Oyunda heyecanlı bir an gibi — yüksek, ama mikrofona bağırma. Süre bitene kadar devam et.',
         'check_h': 'Kısa kontrol',
@@ -290,7 +290,7 @@ STR = {
         'still_clip_p': 'Gain’i biraz daha kısalım.',
         'ok': 'Tamam',
         'cal_h': 'Son adım: bunu sesli oku',
-        'cal_p': 'Normal sesle, Discord’daki gibi. Sesi sana göre ayarlıyorum (20 saniye).',
+        'cal_p': 'Normal sesinle. Sesi sana göre ayarlıyorum (20 saniye).',
         'done_h': 'Hazır',
         'done_p': 'Sesin oda gürültüsünün yaklaşık {snr} dB üstünde. Ton hedefe {err} dB yakınlığa getirildi '
                   '(önce {before} dB uzaktı).',
@@ -305,7 +305,7 @@ STR = {
         'tune_title': 'Sesli \u2014 kulakla ayar',
         'tune_h': 'Kulağınla ayarla',
         'tune_intro': '10 saniye sesini kaydediyorum, sonra en iyi geleni seçiyorsun \u2014 kör test, her seferinde '
-                      'birkaç seçenek. Önce yönü buluyoruz, sonra ince ayar. En fazla 14 seçim. Discord\u2019daki gibi konuş.',
+                      'birkaç seçenek. Önce yönü buluyoruz, sonra ince ayar. En fazla 14 seçim. Normalde nasıl konuşuyorsan öyle konuş.',
         'tune_pick': 'Hangisi en iyi?',
         'tune_pair': 'Hangisi daha iyi?',
         'tune_check': 'Son kontrol: hangisini tercih ediyorsun?',
@@ -321,7 +321,7 @@ STR = {
         'tw_clear': 'daha net', 'tw_soft': 'daha yumuşak', 'tw_warm': 'daha sıcak / tok', 'tw_light': 'daha ince',
         'tw_airy': 'daha ferah', 'tw_dark': 'daha koyu', 'tw_none': 'orijinale yakın',
         'tune_res_tuned': 'Senin sesin: {sound}. Son kör kontrolde bunu orijinale tercih ettin.',
-        'tune_applied': 'Uygulandı \u2014 Discord artık bunu duyuyor. "Tonu sıfırla" ile geri alabilirsin.',
+        'tune_applied': 'Uygulandı — karşı taraf artık bunu duyuyor. "Tonu sıfırla" ile geri alabilirsin.',
         'tune_res_original': 'Son kör kontrolde ORİJİNALİ tercih ettin, onu bıraktım. Kulağın zaten varsayılan sesi seviyor.',
         'tune_res_mixed': 'Senin sesin: {sound}. Son kontrol karışık çıktı \u2014 orijinalle fark küçük. Hangisini tutalım?',
         'tune_use': 'Ayarlı sesi kullan',

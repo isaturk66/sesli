@@ -1,5 +1,5 @@
-"""Sesli — open the app and your processed voice goes to Discord via VB-Cable. Close it and it stops.
-In Discord: Input device = "CABLE Output (VB-Audio Virtual Cable)"; turn OFF noise suppression,
+"""Sesli — open the app and your processed voice goes to VB-Cable. Close it and it stops.
+In your voice app: microphone = "CABLE Output (VB-Audio Virtual Cable)"; turn OFF its noise suppression,
 echo cancellation and automatic gain control (this app does those)."""
 import os, queue, sys, time, traceback
 import tkinter as tk
@@ -174,7 +174,7 @@ class App(tk.Tk):
         tk.Label(c, text=T('your_mic'), font=FONT, bg=CARD, fg=MUTE).pack(anchor='w', pady=(10, 2), **pad)
         self.m_in = Meter(c, 400); self.m_in.pack(**pad)
         self.clip = tk.Label(c, text='', font=FONT, bg=CARD, fg=BAD); self.clip.pack(anchor='w', **pad)
-        tk.Label(c, text=T('discord_hears'), font=FONT, bg=CARD, fg=MUTE).pack(anchor='w', pady=(6, 2), **pad)
+        tk.Label(c, text=T('others_hear'), font=FONT, bg=CARD, fg=MUTE).pack(anchor='w', pady=(6, 2), **pad)
         self.m_out = Meter(c, 400); self.m_out.pack(**pad)
 
         row = tk.Frame(c, bg=CARD); row.pack(fill='x', pady=(16, 6), **pad)
@@ -205,7 +205,7 @@ class App(tk.Tk):
                        command=self.set_autostart).pack(anchor='w', pady=(2, 0), padx=14)
 
         tk.Label(c, font=('Segoe UI', 9), bg=CARD, fg=MUTE, justify='left', wraplength=400,
-                 text=T('discord_help')).pack(anchor='w', pady=(10, 16), **pad)
+                 text=T('app_help')).pack(anchor='w', pady=(10, 16), **pad)
 
     def _build_cable_help(self):
         f = tk.Frame(self, bg=CARD, highlightbackground=LINE, highlightthickness=1)
@@ -235,7 +235,7 @@ class App(tk.Tk):
             self.strength.set('strong' if self.engine.profile['nr_atten_db'] >= 50 else 'gentle')
             self.maybe_setup()
 
-    # ---------- test recording: hear exactly what Discord hears ----------
+    # ---------- test recording: hear exactly what others hear ----------
     TEST_SECONDS = 8
 
     def test_mic(self):

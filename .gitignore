@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+build/
+dist/
+*.spec.bak
+.venv/
+venv/
+*.log
+# personal recordings never go in the repo
+*.wav
+*.flac
+build.log
+.venv-build/

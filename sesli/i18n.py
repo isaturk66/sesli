@@ -51,6 +51,9 @@ STR = {
         'test_mic': 'Test my mic',
         'noise_removal': 'Noise removal',
         'autostart': 'Start Sesli when Windows starts (minimized)',
+        'loudness': 'Loudness',
+        'quieter': 'Quieter',
+        'louder': 'Louder',
         'strong': 'Strong',
         'gentle': 'Gentle',
         'app_help': 'In your voice or streaming app, choose "CABLE Output (VB-Audio Virtual Cable)" as the microphone '
@@ -199,6 +202,9 @@ STR = {
         'test_mic': 'Mikrofonumu test et',
         'noise_removal': 'Gürültü giderme',
         'autostart': 'Windows açılınca Sesli’yi başlat (simge durumunda)',
+        'loudness': 'Ses yüksekliği',
+        'quieter': 'Daha kısık',
+        'louder': 'Daha yüksek',
         'strong': 'Güçlü',
         'gentle': 'Hafif',
         'app_help': 'Sesli konuşma ya da yayın uygulamanda mikrofon olarak "CABLE Output (VB-Audio Virtual Cable)" seç; '

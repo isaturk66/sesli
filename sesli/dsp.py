@@ -9,6 +9,8 @@ from df_native import DeepFilter
 SR = 48000
 BLOCK = 480
 SUB = 48  # 1 ms control-rate sub-blocks
+LOUDNESS_RANGE = 6.0  # dB: the Quieter/Louder slider moves the AGC target by up to this much
+AGC_RANGE = 12.0      # dB the AGC may move around the target
 
 
 def db(x):
@@ -33,6 +35,7 @@ class Chain:
         self.agc_gain_db = profile.get('agc_start_db', 0.0)
         self.agc_hist = []
         self.agc_g_prev = 10 ** (self.agc_gain_db / 20)
+        self.loudness = 0.0  # user's Quieter/Louder offset (dB), added to the AGC target
         # limiter
         self.lim_g = 1.0
         self.lim_re = np.exp(-1 / (1000 * 80 / 1000))
@@ -46,6 +49,13 @@ class Chain:
         """Voice character from "Tune by ear" (on top of the calibrated EQ). Empty = none."""
         self.char = eq_sos([tuple(e) for e in eq], SR) if eq else None
         self.char_zi = np.zeros((self.char.shape[0], 2)) if self.char is not None else None
+
+    def set_loudness(self, db):
+        """Move the output target. The gain jumps by the same amount, so the change is heard at once
+        instead of after the slow AGC catches up."""
+        db = float(np.clip(db, -LOUDNESS_RANGE, LOUDNESS_RANGE))
+        self.agc_gain_db += db - self.loudness
+        self.loudness = db
 
     def set_strength(self, atten_db):
         self.p['nr_atten_db'] = atten_db
@@ -101,9 +111,10 @@ class Chain:
             self.agc_hist.pop(0)
         lvl = 10 * np.log10(np.mean(self.agc_hist) + 1e-14)
         if lvl > self.p['agc_gate_db']:
-            err = self.p['agc_target_db'] - (lvl + self.agc_gain_db)
+            err = self.p['agc_target_db'] + self.loudness - (lvl + self.agc_gain_db)
             self.agc_gain_db += float(np.clip(err, -0.015, 0.015))  # 1.5 dB/s
-            self.agc_gain_db = float(np.clip(self.agc_gain_db, -12, 12))
+            self.agc_gain_db = float(np.clip(self.agc_gain_db, self.loudness - AGC_RANGE,
+                                             self.loudness + AGC_RANGE))
         g = 10 ** (self.agc_gain_db / 20)
         out = y * np.linspace(self.agc_g_prev, g, len(y), endpoint=False)
         self.agc_g_prev = g

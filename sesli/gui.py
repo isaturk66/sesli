@@ -23,6 +23,7 @@ import assistant as A  # noqa: E402
 import eqfit  # noqa: E402
 import i18n  # noqa: E402
 import autostart  # noqa: E402
+from dsp import LOUDNESS_RANGE  # noqa: E402
 from i18n import T  # noqa: E402
 
 BG, CARD, INK, MUTE, LINE = '#f4f3ef', '#ffffff', '#1d1d1f', '#6b6b70', '#dcdad5'
@@ -200,6 +201,15 @@ class App(tk.Tk):
             tk.Radiobutton(srow, text=T(v), value=v, variable=self.strength, bg=CARD, font=FONT,
                            command=self.set_strength, activebackground=CARD).pack(side='left', padx=6)
 
+        lrow = tk.Frame(c, bg=CARD); lrow.pack(fill='x', pady=(4, 4), **pad)
+        tk.Label(lrow, text=T('loudness'), font=FONT, bg=CARD, fg=INK).pack(side='left')
+        tk.Label(lrow, text=T('quieter'), font=FONT, bg=CARD, fg=MUTE).pack(side='left', padx=(10, 2))
+        self.loud_var = tk.DoubleVar(value=i18n.load_settings().get('loudness_db', 0.0))
+        tk.Scale(lrow, from_=-LOUDNESS_RANGE, to=LOUDNESS_RANGE, resolution=1, orient='horizontal', showvalue=0,
+                 variable=self.loud_var, length=180, bg=CARD, highlightthickness=0, troughcolor=LINE,
+                 command=self.set_loudness).pack(side='left')
+        tk.Label(lrow, text=T('louder'), font=FONT, bg=CARD, fg=MUTE).pack(side='left', padx=2)
+
         self.auto_var = tk.BooleanVar(value=autostart.enabled())
         tk.Checkbutton(c, text=T('autostart'), variable=self.auto_var, bg=CARD, font=FONT, activebackground=CARD,
                        command=self.set_autostart).pack(anchor='w', pady=(2, 0), padx=14)
@@ -311,6 +321,12 @@ class App(tk.Tk):
         except OSError:
             traceback.print_exc()
             self.auto_var.set(autostart.enabled())
+
+    def set_loudness(self, _=None):
+        v = float(self.loud_var.get())
+        if self.engine.chain is not None:
+            self.engine.chain.set_loudness(v)
+        i18n.save_setting('loudness_db', v)
 
     def set_strength(self):
         self.engine.apply_profile(dict(nr_atten_db=100.0 if self.strength.get() == 'strong' else 24.0))

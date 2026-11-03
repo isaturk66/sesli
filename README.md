@@ -49,7 +49,10 @@ To build a single `.exe` you can send to someone, see [docs/BUILDING.md](docs/BU
 4. **To change your tone:** click **Tune by ear**. You record 10 seconds, then make up to 14 blind
    choices. It starts with a few clearly different options, then fine-tunes with pairs, and finishes
    with a blind check against your original sound. **Reset tone** undoes it.
-5. **To start with Windows:** tick **Start Sesli when Windows starts**. It then opens minimized at login.
+5. **Too quiet or too loud for others?** Move the **Loudness** slider (Quieter ↔ Louder). Don't use the
+   gain knob for this: Sesli's automatic level would undo it within seconds, and the knob is for how
+   clean the mic sounds, which the setup already set.
+6. **To start with Windows:** tick **Start Sesli when Windows starts**. It then opens minimized at login.
 
 Very quiet mics (cheap earbuds, for example) are fine: if your mic is still too quiet at its maximum
 level, the setup assistant adds a digital boost.

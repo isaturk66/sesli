@@ -10,6 +10,7 @@ import timer_res
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 from paths import DATA
+import i18n
 PROFILES = os.path.join(DATA, 'profiles.json')
 VB_CABLE_URL = 'https://vb-audio.com/Cable/'
 
@@ -310,6 +311,7 @@ class Engine:
             set_input_level_full(self.mic)
         try:
             self.chain = Chain(self.profile)
+            self.chain.set_loudness(i18n.load_settings().get('loudness_db', 0.0))
         except Exception as ex:
             self.status, self.error = 'error', f'Noise remover failed to load: {ex}'
             return False

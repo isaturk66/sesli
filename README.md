@@ -19,8 +19,9 @@ The app has an English and a Turkish interface.
 your mic ──► Sesli ──► VB-Cable ("CABLE Input") ──► your app picks "CABLE Output" as its mic
 ```
 
-Open Sesli and processing starts. Close it and it stops. There's nothing to configure beyond the
-setup assistant.
+Open Sesli and processing starts. The window's X button only hides it to the tray (bottom right),
+where it keeps working. To stop it, right-click the tray icon → **Quit Sesli**. There's nothing to
+configure beyond the setup assistant.
 
 ## Download
 

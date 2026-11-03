@@ -16,6 +16,8 @@ Sesli is a Windows live voice processor: mic → HPF → DeepFilterNet → EQ �
 - `sesli/tonesearch.py` holds the Tune-by-ear search (explore, then refine, then a blind check against the original; hard capped at 14 choices). `tuner.py` is its window, with a loop bar. The result is a `character_eq` per mic, applied in `dsp.py` after the EQ.
 - `sesli/assistant.py` holds the placement and gain logic (see the model in its docstring).
   `eqfit.py` fits the EQ to `target.json`.
+- `sesli/tray.py` is the tray icon (pystray, own thread; actions are queued and polled on the Tk thread).
+  The X button hides to the tray; a second launch sets the `Sesli.Show` event to bring the window back.
 - `sesli/autostart.py` is the "start with Windows" option (an HKCU `Run` value; `--minimized`).
 - The profile's `input_trim_db` is a digital boost applied before the noise remover. The setup sets it
   when the mic is too quiet at its maximum level: DeepFilterNet mutes speech below about -48 dBFS.

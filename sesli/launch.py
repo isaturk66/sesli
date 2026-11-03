@@ -13,6 +13,11 @@ k32 = ctypes.windll.kernel32
 u32 = ctypes.windll.user32
 _mutex = k32.CreateMutexW(None, False, 'Sesli.SingleInstance')
 if k32.GetLastError() == 183:  # ERROR_ALREADY_EXISTS -> already running
+    ev = k32.OpenEventW(0x0002, False, 'Sesli.Show')  # EVENT_MODIFY_STATE; works even when hidden in the tray
+    if ev:
+        u32.AllowSetForegroundWindow(-1)  # ASFW_ANY: let the running copy take the foreground
+        k32.SetEvent(ev)
+        sys.exit(0)
     h = u32.FindWindowW(None, 'Sesli')
     if h:
         u32.ShowWindow(h, 9)  # SW_RESTORE

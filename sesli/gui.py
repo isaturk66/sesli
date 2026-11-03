@@ -24,6 +24,7 @@ import eqfit  # noqa: E402
 import i18n  # noqa: E402
 import autostart  # noqa: E402
 from dsp import LOUDNESS_RANGE  # noqa: E402
+import tray  # noqa: E402
 from i18n import T  # noqa: E402
 
 BG, CARD, INK, MUTE, LINE = '#f4f3ef', '#ffffff', '#1d1d1f', '#6b6b70', '#dcdad5'
@@ -81,13 +82,16 @@ class App(tk.Tk):
         set_icon(self)
         self.configure(bg=BG)
         self.resizable(False, False)
-        self.protocol('WM_DELETE_WINDOW', self.quit_app)
+        self.protocol('WM_DELETE_WINDOW', self.on_close)
+        self.tray = tray.Tray(T)
+        self.after(200, self._tray_poll)
         self.engine = eng.Engine()
         self.ok = self.engine.start()
         self.setup_win = None
         autostart.refresh()
         if autostart.started_minimized():
-            self.after(150, self.iconify)  # started with Windows: stay out of the way
+            # started with Windows: stay out of the way (in the tray, or minimized if there's no tray)
+            self.after(150, self.withdraw if self.tray.available else self.iconify)
         else:
             self.after(150, self.bring_to_front)
         if i18n.lang() is None:
@@ -371,7 +375,22 @@ class App(tk.Tk):
         w.lift(); w.attributes('-topmost', True); w.focus_force()
         w.after(800, lambda: w.winfo_exists() and w.attributes('-topmost', False))
 
+    def on_close(self):
+        """The X button hides Sesli to the tray; it keeps processing. Quit is in the tray menu."""
+        if not self.tray.available:
+            return self.quit_app()
+        self.withdraw()
+        self.tray.note_once(T('tray_note'))
+
+    def _tray_poll(self):
+        for a in self.tray.poll():
+            if a == 'quit':
+                return self.quit_app()
+            self.bring_to_front()
+        self.after(200, self._tray_poll)
+
     def quit_app(self):
+        self.tray.stop()
         self.engine.stop()
         self.destroy()
 

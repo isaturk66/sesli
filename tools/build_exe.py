@@ -26,6 +26,7 @@ PyInstaller.__main__.run([
     data('target.json', '.'),
     '--hidden-import=gui',
     '--hidden-import=comtypes.stream',
+    '--hidden-import=pystray._win32',
     '--collect-submodules=pycaw',
     f'--distpath={os.path.join(ROOT, "dist")}',
     f'--workpath={os.path.join(ROOT, "build")}',

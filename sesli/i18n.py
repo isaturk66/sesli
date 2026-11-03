@@ -54,6 +54,9 @@ STR = {
         'loudness': 'Loudness',
         'quieter': 'Quieter',
         'louder': 'Louder',
+        'tray_open': 'Open Sesli',
+        'tray_quit': 'Quit Sesli',
+        'tray_note': 'Sesli is still running and cleaning your mic. To quit, right-click this icon → Quit Sesli.',
         'strong': 'Strong',
         'gentle': 'Gentle',
         'app_help': 'In your voice or streaming app, choose "CABLE Output (VB-Audio Virtual Cable)" as the microphone '
@@ -205,6 +208,9 @@ STR = {
         'loudness': 'Ses yüksekliği',
         'quieter': 'Daha kısık',
         'louder': 'Daha yüksek',
+        'tray_open': 'Sesli’yi aç',
+        'tray_quit': 'Sesli’den çık',
+        'tray_note': 'Sesli hâlâ çalışıyor ve mikrofonunu temizliyor. Kapatmak için bu simgeye sağ tıkla → Sesli’den çık.',
         'strong': 'Güçlü',
         'gentle': 'Hafif',
         'app_help': 'Sesli konuşma ya da yayın uygulamanda mikrofon olarak "CABLE Output (VB-Audio Virtual Cable)" seç; '

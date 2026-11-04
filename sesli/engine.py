@@ -280,7 +280,8 @@ class Engine:
                 self.out_db = 0.8 * self.out_db + 0.2 * (10 * np.log10((out ** 2).mean() + 1e-12))
                 for q, kind in list(self.taps):
                     try:
-                        q.put_nowait(blk if kind == 'raw' else post if kind == 'post_nr' else out)
+                        q.put_nowait(blk if kind == 'raw' else post if kind == 'post_nr' else
+                                     (blk, out) if kind == 'both' else out)
                     except queue.Full:
                         pass
                 with self.lock:

@@ -213,6 +213,9 @@ class App(tk.Tk):
                  variable=self.loud_var, length=180, bg=CARD, highlightthickness=0, troughcolor=LINE,
                  command=self.set_loudness).pack(side='left')
         tk.Label(lrow, text=T('louder'), font=FONT, bg=CARD, fg=MUTE).pack(side='left', padx=2)
+        self.loud_lbl = tk.Label(lrow, text='', font=('Segoe UI Semibold', 10), bg=CARD, fg=INK, width=6)
+        self.loud_lbl.pack(side='left', padx=(6, 0))
+        self._loud_text()
 
         self.auto_var = tk.BooleanVar(value=autostart.enabled())
         tk.Checkbutton(c, text=T('autostart'), variable=self.auto_var, bg=CARD, font=FONT, activebackground=CARD,
@@ -250,46 +253,17 @@ class App(tk.Tk):
             self.maybe_setup()
 
     # ---------- test recording: hear exactly what others hear ----------
-    TEST_SECONDS = 8
 
     def test_mic(self):
-        if not self.ok or getattr(self, 'testing', False):
+        """Pop-up: record 10 s, then switch between your original mic and what others hear."""
+        if not self.ok:
             return
-        self.testing = True
-        self.test_q = self.engine.add_tap('out')
-        self.test_buf = []
-        self.test_t0 = time.time()
-        self.btn_test.config(state='disabled')
-        self._test_tick()
-
-    def _test_tick(self):
-        while True:
-            try:
-                self.test_buf.append(self.test_q.get_nowait())
-            except queue.Empty:
-                break
-        left = self.TEST_SECONDS - (time.time() - self.test_t0)
-        if left > 0:
-            self.test_msg.config(text=T('recording_test', s=f'{left:.0f}'), fg=BAD)
-            self.after(100, self._test_tick)
-            return
-        self.engine.remove_tap(self.test_q)
-        audio = np.concatenate(self.test_buf) if self.test_buf else np.zeros(480, np.float32)
-        self.test_msg.config(text=T('playing_back'), fg=INK)
-        try:
-            import sounddevice as sd
-            sd.play(audio, eng.SR)
-            self.after(int(len(audio) / eng.SR * 1000) + 300, self._test_done)
-        except Exception as ex:
-            self.test_msg.config(text=T('cant_play', err=ex), fg=BAD)
-            self._test_done(keep_msg=True)
-
-    def _test_done(self, keep_msg=False):
-        self.testing = False
-        if self.btn_test.winfo_exists():
-            self.btn_test.config(state='normal')
-            if not keep_msg:
-                self.test_msg.config(text=T('test_done'), fg=MUTE)
+        import mictest
+        if getattr(self, 'test_win', None) is None or not self.test_win.winfo_exists():
+            self.test_win = mictest.MicTest(self)
+        w = self.test_win
+        w.lift(); w.attributes('-topmost', True); w.focus_force()
+        w.after(800, lambda: w.winfo_exists() and w.attributes('-topmost', False))
 
     def open_tuner(self):
         if not self.ok:
@@ -326,8 +300,13 @@ class App(tk.Tk):
             traceback.print_exc()
             self.auto_var.set(autostart.enabled())
 
+    def _loud_text(self):
+        v = round(float(self.loud_var.get()))
+        self.loud_lbl.config(text='0 dB' if v == 0 else f'{v:+d} dB')
+
     def set_loudness(self, _=None):
         v = float(self.loud_var.get())
+        self._loud_text()
         if self.engine.chain is not None:
             self.engine.chain.set_loudness(v)
         i18n.save_setting('loudness_db', v)

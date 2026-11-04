@@ -45,12 +45,12 @@ To build a single `.exe` you can send to someone, see [docs/BUILDING.md](docs/BU
 2. **In your voice or streaming app:** set the microphone to **CABLE Output (VB-Audio Virtual Cable)**.
    Turn **off** the app's own Noise Suppression, Echo Cancellation and Automatic Gain Control, because
    Sesli does those.
-3. **To hear yourself:** click **Test my mic**. It records 8 seconds of exactly what others will hear and
-   plays it back.
+3. **To hear the difference:** click **Test my mic**. It records 10 seconds, then you can switch between
+   **Original** (your raw mic) and **Sesli** (exactly what others hear) at the same moment of the recording.
 4. **To change your tone:** click **Tune by ear**. You record 10 seconds, then make up to 14 blind
    choices. It starts with a few clearly different options, then fine-tunes with pairs, and finishes
    with a blind check against your original sound. **Reset tone** undoes it.
-5. **Too quiet or too loud for others?** Move the **Loudness** slider (Quieter ↔ Louder). Don't use the
+5. **Too quiet or too loud for others?** Move the **Loudness** slider (Quieter ↔ Louder, -6 to +6 dB). Don't use the
    gain knob for this: Sesli's automatic level would undo it within seconds, and the knob is for how
    clean the mic sounds, which the setup already set.
 6. **To start with Windows:** tick **Start Sesli when Windows starts**. It then opens minimized at login.
